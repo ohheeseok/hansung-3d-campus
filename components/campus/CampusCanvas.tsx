@@ -1,0 +1,24 @@
+'use client';
+import {Canvas,useFrame,useThree} from '@react-three/fiber';
+import {OrbitControls} from '@react-three/drei';
+import {useEffect,useRef,useState} from 'react';
+import {OrbitControls as OrbitImpl} from 'three-stdlib';
+import * as THREE from 'three';
+import {locations} from '@/data/campus';
+import {Building} from './Building';
+import {Terrain,Paths,Trees} from './Landscape';
+import NaksanLandscape from './NaksanLandscape';
+export interface SceneProps {selected:string|null; matches:string[]; labels:boolean;paths:boolean;trees:boolean;dusk:boolean;view:{mode:'home'|'top'|'selected'|'zoom-in'|'zoom-out';tick:number};onSelect:(id:string)=>void;onReady:()=>void}
+function Camera({selected,view}:{selected:SceneProps['selected'];view:SceneProps['view']}){
+ const ref=useRef<OrbitImpl>(null);const {camera,size}=useThree();const motion=useRef<{from:THREE.Vector3;to:THREE.Vector3;targetFrom:THREE.Vector3;targetTo:THREE.Vector3;zoomFrom:number;zoomTo:number;t:number}|null>(null);
+ useEffect(()=>{const ctrl=ref.current;if(!ctrl)return;const loc=locations.find(x=>x.id===selected);const focus=loc&&view.mode!=='home'&&view.mode!=='top';const target=focus?new THREE.Vector3(...loc.position).add(new THREE.Vector3(0,loc.size[1]*.35,0)):new THREE.Vector3(13,8,view.mode==='top'?-30:-18);const pos=view.mode==='top'?target.clone().add(new THREE.Vector3(0,200,.1)):target.clone().add(new THREE.Vector3(110,135,180));const cam=camera as THREE.OrthographicCamera;const base=Math.min(size.width/285,size.height/245);let zoom=focus?base*2.1:view.mode==='top'?base*.94:base;if(view.mode==='zoom-in'||view.mode==='zoom-out'){zoom=THREE.MathUtils.clamp(cam.zoom*(view.mode==='zoom-in'?1.25:.8),1.4,13);target.copy(ctrl.target);pos.copy(camera.position)}motion.current={from:camera.position.clone(),to:pos,targetFrom:ctrl.target.clone(),targetTo:target,zoomFrom:cam.zoom,zoomTo:zoom,t:window.matchMedia('(prefers-reduced-motion: reduce)').matches?1:0}},[selected,view,size,camera]);
+ useFrame((_,dt)=>{const m=motion.current;if(!m||!ref.current)return;m.t=Math.min(1,m.t+dt/1.1);const t=m.t*m.t*(3-2*m.t);camera.position.lerpVectors(m.from,m.to,t);ref.current.target.lerpVectors(m.targetFrom,m.targetTo,t);(camera as THREE.OrthographicCamera).zoom=THREE.MathUtils.lerp(m.zoomFrom,m.zoomTo,t);camera.updateProjectionMatrix();ref.current.update();if(m.t===1)motion.current=null});
+ return <OrbitControls ref={ref} makeDefault target={[0,3,-7]} minPolarAngle={.03} maxPolarAngle={Math.PI/2.2} minZoom={1.4} maxZoom={13} maxDistance={420} enableDamping onStart={()=>{motion.current=null}} onEnd={()=>{if(ref.current){ref.current.target.x=THREE.MathUtils.clamp(ref.current.target.x,-85,85);ref.current.target.z=THREE.MathUtils.clamp(ref.current.target.z,-90,80)}}}/>;
+}
+export default function CampusCanvas(p:SceneProps){const [failed,setFailed]=useState(false);
+ useEffect(()=>{const c=document.createElement('canvas');if(!c.getContext('webgl2'))setFailed(true)},[]);
+ if(failed)return <div className="fallback"><img src="/images/campus-map.png" alt="한성대학교 캠퍼스 참조 지도"/><h2>3D 보기를 사용할 수 없습니다</h2><p>WebGL을 지원하는 브라우저에서 열어주세요. 장소 검색과 상세 정보는 계속 이용할 수 있습니다.</p></div>;
+ return <Canvas orthographic shadows dpr={[1,1.5]} camera={{position:[110,138,173],zoom:3,near:.1,far:1000}} gl={{antialias:true}} onCreated={({gl})=>{gl.domElement.setAttribute('aria-label','드래그하여 회전하고 스크롤하여 확대하는 3D 캠퍼스');p.onReady()}}><color attach="background" args={[p.dusk?'#1c2c43':'#eef1f5']}/><ambientLight intensity={p.dusk?.7:1.4}/><hemisphereLight args={[p.dusk?'#829bb9':'#f9f4df','#86937b',1.3]}/><directionalLight position={[-60,130,60]} intensity={p.dusk?1.2:2.3} color={p.dusk?'#ffd8b2':'#fff5da'} castShadow shadow-mapSize={[2048,2048]} shadow-camera-left={-150} shadow-camera-right={150} shadow-camera-top={150} shadow-camera-bottom={-150} shadow-camera-far={400} shadow-normalBias={.15}/><mesh rotation={[-Math.PI/2,0,0]} position={[0,-7.2,0]} receiveShadow><planeGeometry args={[2000,2000]}/><meshStandardMaterial color={p.dusk?'#1c2c43':'#eef1f5'}/></mesh><Terrain/><NaksanLandscape dusk={p.dusk} trees={p.trees} paths={p.paths} labels={p.labels}/>{p.paths&&<Paths/>}{p.trees&&<Trees/>}{locations.map(item=><Building key={item.id} item={item} selected={p.selected===item.id} muted={!p.matches.includes(item.id)} labels={p.labels} dusk={p.dusk} onSelect={p.onSelect}/>)}<RenderMetrics/><Camera selected={p.selected} view={p.view}/></Canvas>
+}
+
+function RenderMetrics(){const sample=useRef({elapsed:0,frames:0});useFrame(({gl},dt)=>{sample.current.elapsed+=dt;sample.current.frames++;if(sample.current.elapsed>=1){gl.domElement.dataset.renderStats=JSON.stringify({fps:Math.round(sample.current.frames/sample.current.elapsed),drawCalls:gl.info.render.calls,triangles:gl.info.render.triangles,geometries:gl.info.memory.geometries,dpr:gl.getPixelRatio()});sample.current={elapsed:0,frames:0}}});return null}

@@ -1,0 +1,94 @@
+{
+  "main-gate": {
+    "src": "/images/campus-stories/main-gate.webp",
+    "alt": "한성대 정문"
+  },
+  "woochon": {
+    "src": "/images/campus-stories/woochon.webp",
+    "alt": "우촌관"
+  },
+  "inner-gate": {
+    "src": "/images/campus-stories/inner-gate.webp",
+    "alt": "우촌관야경"
+  },
+  "veritas": {
+    "src": "/images/campus-stories/veritas.webp",
+    "alt": "temp 16158550130..."
+  },
+  "haksong": {
+    "src": "/images/campus-stories/haksong.webp",
+    "alt": "학송"
+  },
+  "exploration": {
+    "src": "/images/campus-stories/exploration.webp",
+    "alt": "tamgu"
+  },
+  "research": {
+    "src": "/images/campus-stories/research.webp",
+    "alt": "한성대학교연구관"
+  },
+  "virtue": {
+    "src": "/images/campus-stories/virtue.webp",
+    "alt": "jiseongwan"
+  },
+  "engineering-a": {
+    "src": "/images/campus-stories/engineering-a.webp",
+    "alt": "gonghak"
+  },
+  "engineering-b": {
+    "src": "/images/campus-stories/engineering-b.webp",
+    "alt": "gonghak"
+  },
+  "humanities": {
+    "src": "/images/campus-stories/humanities.webp",
+    "alt": "한성인성관"
+  },
+  "creativity": {
+    "src": "/images/campus-stories/creativity.webp",
+    "alt": "changui"
+  },
+  "naksan": {
+    "src": "/images/campus-stories/naksan.webp",
+    "alt": "낙산관"
+  },
+  "future-hall": {
+    "src": "/images/campus-stories/future-hall.webp",
+    "alt": "한성대학교 미래관"
+  },
+  "imagination": {
+    "src": "/images/campus-stories/imagination.webp",
+    "alt": "sangsang"
+  },
+  "cube": {
+    "src": "/images/campus-stories/cube.webp",
+    "alt": "sangcube"
+  },
+  "village": {
+    "src": "/images/campus-stories/village.webp",
+    "alt": "sangville"
+  },
+  "south-gate": {
+    "src": "/images/campus-stories/south-gate.webp",
+    "alt": "한성대학교남문"
+  },
+  "rotc": {
+    "src": "/images/campus-stories/rotc.webp",
+    "alt": "한성학군단"
+  },
+  "annex": {
+    "src": "/images/campus-stories/annex.webp",
+    "alt": "한성대학교제1별관"
+  },
+  "future-plaza": {
+    "src": "/images/campus-stories/future-plaza.webp",
+    "alt": "미래관 야경"
+  },
+  "imagination-ground": {
+    "src": "/images/campus-stories/imagination-ground.webp",
+    "alt": "한성대상상관"
+  },
+  "futsal-court": {
+    "src": "/images/campus-stories/futsal-court.webp",
+    "alt": "jinrigwan"
+  }
+}
