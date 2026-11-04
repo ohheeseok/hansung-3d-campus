@@ -5,7 +5,8 @@ const page=await browser.newPage({viewport:{width:1440,height:900}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
 try {
   await page.goto(process.env.TEST_URL||'http://localhost:3101');
-  await expect(page.locator('.landmark-label')).toContainText('낙산성곽');
+  await expect(page.locator('canvas')).toBeVisible();
+  await expect(page.locator('.landmark-label')).toHaveCount(0);
   await page.waitForTimeout(1700);
   await page.screenshot({path:'artifacts/fortress-day.png'});
   await page.getByRole('button',{name:'황혼 모드로 전환'}).click();
@@ -19,7 +20,7 @@ try {
   await page.getByRole('button',{name:'장소 이름',exact:true}).click();
   await expect(page.locator('.landmark-label')).toHaveCount(0);
   await page.getByRole('button',{name:'장소 이름',exact:true}).click();
-  await expect(page.locator('.landmark-label')).toHaveCount(1);
+  await expect(page.locator('.landmark-label')).toHaveCount(0);
   await page.getByRole('button',{name:'나무와 녹지',exact:true}).click();
   await page.getByRole('button',{name:'이동 경로',exact:true}).click();
   await page.screenshot({path:'artifacts/fortress-structure.png'});

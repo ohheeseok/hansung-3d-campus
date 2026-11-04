@@ -1,7 +1,6 @@
 'use client';
 
 import {useLayoutEffect,useMemo,useRef} from 'react';
-import {Html} from '@react-three/drei';
 import * as THREE from 'three';
 import {terraces} from '@/data/campus';
 
@@ -57,7 +56,7 @@ function Boxes({items,emissive=false,warmth=0}:{items:Box[];emissive?:boolean;wa
   </instancedMesh>;
 }
 
-export default function NaksanLandscape({dusk,trees,paths,labels}:{dusk:boolean;trees:boolean;paths:boolean;labels:boolean}) {
+export default function NaksanLandscape({dusk,trees,paths}:{dusk:boolean;trees:boolean;paths:boolean}) {
   const terrain=useMemo(()=>{
     const positions:number[]=[],colors:number[]=[],indices:number[]=[];
     const cols=96,rows=10;
@@ -128,7 +127,6 @@ export default function NaksanLandscape({dusk,trees,paths,labels}:{dusk:boolean;
     <Boxes items={elements.lamps}/><Boxes items={elements.bulbs} emissive={dusk}/>
     {dusk&&<><WallWashes items={elements.washes}/><WallWashes items={elements.pools} ground/>{[.08,.3,.52,.74,.94].map(t=><pointLight key={t} position={surface(t,-1).add(new THREE.Vector3(0,1.8,0))} color="#ffc47a" intensity={35} distance={18} decay={2}/>)}</>}
     {trees&&<RidgeTrees items={vegetation}/>}
-    {labels&&<Html position={surface(.58,2.5).add(new THREE.Vector3(0,9,0))} center zIndexRange={[25,0]}><span className="landmark-label">낙산성곽<small>NAKSAN FORTRESS WALL</small></span></Html>}
   </group>;
 }
 

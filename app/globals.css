@@ -13,10 +13,6 @@
 .brand-signature{display:block;width:185px;height:auto;object-fit:contain}
 .info-panel{max-height:calc(100% - 220px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#b9cbe0 transparent}
 .building-photo{margin:17px 0 14px}
-.landmark-label{display:block;white-space:nowrap;text-align:center;color:#5b6f55;background:#fbfcf3dd;border:1px solid #d5ddc9;border-radius:5px;padding:7px 11px;font-size:11px;letter-spacing:1px;pointer-events:none}
-.landmark-label small{display:block;color:#87927f;font-size:7px;letter-spacing:1.6px;margin-top:4px}
-.dusk .landmark-label{background:#1d2e42df;color:#e9c891;border-color:#788167}.dusk .landmark-label small{color:#b8bba5}
-@media(max-width:760px){.landmark-label{font-size:9px;padding:5px 7px}.landmark-label small{font-size:6px;letter-spacing:.7px}}
 .story-source{display:flex;align-items:center;gap:5px;color:var(--accent);font-size:9px;margin:-9px 0 18px;text-decoration:underline;text-underline-offset:3px}
 .building-photo img{display:block;width:100%;height:auto;max-height:180px;object-fit:contain;background:#e9eef5;border-radius:5px}
 .building-photo figcaption{margin-top:6px;font-size:8px;line-height:1.6;color:var(--muted)}
